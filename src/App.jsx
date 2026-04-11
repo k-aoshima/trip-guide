@@ -170,8 +170,10 @@ function ImageSlider({ images, color, hero }) {
       </div>
       {len > 1 && (
         <div style={{
-          position: "absolute", bottom: hero ? 12 : 6, left: 0, right: 0,
+          position: "absolute", bottom: 0, left: 0, right: 0,
           display: "flex", justifyContent: "center", gap: 5,
+          padding: hero ? "20px 0 14px" : "12px 0 8px",
+          background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.3))",
         }}>
           {images.map((_, i) => (
             <div key={i} style={{
@@ -187,9 +189,9 @@ function ImageSlider({ images, color, hero }) {
 }
 
 /* ── Glass Card ── */
-function Card({ s, isCurrent }) {
+function Card({ s, isCurrent, onTap }) {
   return (
-    <div style={{
+    <div onClick={onTap} style={{ cursor: "pointer",
       background: "rgba(255,255,255,0.72)",
       backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
       borderRadius: 22, padding: "0 20px 16px",
@@ -439,7 +441,7 @@ export default function App() {
 
   return (
     <div style={{
-      height: "100vh", maxWidth: 430, margin: "0 auto",
+      height: "100dvh", maxWidth: 430, margin: "0 auto",
       position: "relative", overflow: "hidden",
       fontFamily: "'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif",
       background: "#f0ede8",
@@ -511,7 +513,7 @@ export default function App() {
                 ...(i === 0 ? { marginLeft: "8%" } : {}),
                 ...(i === SPOTS.length - 1 ? { marginRight: "8%" } : {}),
               }}>
-                <Card s={sp} isCurrent={i === active} />
+                <Card s={sp} isCurrent={i === active} onTap={() => setMapOpen(false)} />
               </div>
             ))}
           </div>
