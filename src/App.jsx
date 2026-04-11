@@ -468,6 +468,28 @@ function DetailContent({ s }) {
           <span>🕐 {s.hours}</span>
         </div>
 
+        {/* Google Maps link */}
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+            background: "rgba(255,255,255,0.7)", borderRadius: 12,
+            border: "1px solid rgba(0,0,0,0.08)",
+            padding: "10px 14px", fontSize: 12, fontWeight: 600,
+            color: "#555", textDecoration: "none",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+            marginBottom: 16,
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          Google マップで開く
+        </a>
+
       </div>
     </div>
   );
