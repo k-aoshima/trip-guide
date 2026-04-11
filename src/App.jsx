@@ -48,7 +48,7 @@ const SPOTS = [
     desc: "森に囲まれた露天風呂とサウナで極上の「ととのい」体験。旅の締めくくりに最高。",
     lat: 35.2339, lng: 139.0957, color: "#2980B9",
     tags: ["サウナ", "露天風呂", "ととのい"], drive: "車 20分",
-    images: ["/images/yuryo_1.jpg", "/images/yuryo_2.jpg"],
+    images: ["/images/yuryo_1.jpg", "/images/yuryo_2.jpg", "/images/yuryo_3.jpg"],
     url: "https://www.hakoneyuryo.jp/",
   },
 ];
@@ -134,6 +134,7 @@ function Map({ spots, active, onTap, visible }) {
 function ImageSlider({ images, color, hero }) {
   const [idx, setIdx] = useState(0);
   const ref = useRef(null);
+  const wrapRef = useRef(null);
   const len = images.length;
 
   const onScroll = useCallback(() => {
@@ -148,13 +149,14 @@ function ImageSlider({ images, color, hero }) {
   const radius = hero ? "0" : "22px 22px 14px 14px";
 
   return (
-    <div style={{ position: "relative", borderRadius: radius, overflow: "hidden", marginBottom: hero ? 0 : 12, flexShrink: 0, margin: hero ? 0 : "0 -20px 12px" }}>
+    <div ref={wrapRef} data-imgslider="true" style={{ position: "relative", borderRadius: radius, overflow: "hidden", marginBottom: hero ? 0 : 12, flexShrink: 0, margin: hero ? 0 : "0 -20px 12px", WebkitTransform: "translateZ(0)" }}>
       <div
         ref={ref}
         onScroll={onScroll}
         style={{
           display: "flex", overflowX: "auto", scrollSnapType: "x mandatory",
           scrollbarWidth: "none", WebkitOverflowScrolling: "touch",
+          overscrollBehaviorX: "contain",
         }}
       >
         {images.map((src, i) => (
@@ -170,10 +172,11 @@ function ImageSlider({ images, color, hero }) {
       </div>
       {len > 1 && (
         <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0,
+          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 10,
           display: "flex", justifyContent: "center", gap: 5,
           padding: hero ? "20px 0 14px" : "12px 0 8px",
           background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.3))",
+          WebkitTransform: "translateZ(0)",
         }}>
           {images.map((_, i) => (
             <div key={i} style={{
@@ -273,47 +276,79 @@ function Card({ s, isCurrent, onTap }) {
 
 /* ── Swipeable Detail Wrapper ── */
 function SwipeableDetail({ active, setActive, spots }) {
-  const scrollRef = useRef(null);
-  const lockRef = useRef(false);
+  const containerRef = useRef(null);
+  const touch = useRef({ x: 0, y: 0, locked: false, isImg: false });
+  const [drag, setDrag] = useState(0);
+  const [transitioning, setTransitioning] = useState(false);
 
-  const onScroll = useCallback(() => {
-    if (lockRef.current) return;
-    const el = scrollRef.current;
-    if (!el) return;
-    const w = el.offsetWidth;
-    if (w === 0) return;
-    const idx = Math.round(el.scrollLeft / w);
-    setActive(Math.max(0, Math.min(spots.length - 1, idx)));
-  }, [spots.length, setActive]);
+  const onTouchStart = (e) => {
+    if (transitioning) return;
+    // Check if touch originated in image slider
+    let el = e.target;
+    while (el && el !== containerRef.current) {
+      if (el.dataset && el.dataset.imgslider) { touch.current.isImg = true; return; }
+      el = el.parentElement;
+    }
+    touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, locked: false, isImg: false };
+  };
 
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    lockRef.current = true;
-    el.scrollTo({ left: el.offsetWidth * active, behavior: "auto" });
-    setTimeout(() => { lockRef.current = false; }, 100);
-  }, []);
+  const onTouchMove = (e) => {
+    if (touch.current.isImg || transitioning) return;
+    const dx = e.touches[0].clientX - touch.current.x;
+    const dy = e.touches[0].clientY - touch.current.y;
+    if (!touch.current.locked) {
+      if (Math.abs(dy) > Math.abs(dx)) { touch.current.isImg = true; return; } // vertical = scroll
+      if (Math.abs(dx) > 8) touch.current.locked = true;
+      else return;
+    }
+    // Resist at edges
+    const atEdge = (active === 0 && dx > 0) || (active === spots.length - 1 && dx < 0);
+    setDrag(atEdge ? dx * 0.2 : dx);
+  };
+
+  const onTouchEnd = () => {
+    if (touch.current.isImg) { touch.current.isImg = false; return; }
+    if (transitioning) return;
+    const threshold = (containerRef.current?.offsetWidth || 300) * 0.2;
+    let next = active;
+    if (drag < -threshold && active < spots.length - 1) next = active + 1;
+    else if (drag > threshold && active > 0) next = active - 1;
+
+    if (next !== active) {
+      setTransitioning(true);
+      setDrag(0);
+      setActive(next);
+      setTimeout(() => setTransitioning(false), 400);
+    } else {
+      setDrag(0);
+    }
+    touch.current = { x: 0, y: 0, locked: false, isImg: false };
+  };
 
   return (
     <div
-      ref={scrollRef}
-      onScroll={onScroll}
-      style={{
-        flex: 1, display: "flex",
-        overflowX: "auto", scrollSnapType: "x mandatory",
-        WebkitOverflowScrolling: "touch",
-        scrollbarWidth: "none",
-        minHeight: 0,
-      }}
+      ref={containerRef}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      style={{ flex: 1, overflow: "hidden", position: "relative", minHeight: 0 }}
     >
-      {spots.map((sp) => (
-        <div key={sp.id} style={{
-          flex: "0 0 100%", scrollSnapAlign: "start",
-          overflowY: "auto", scrollbarWidth: "none",
-        }}>
-          <DetailContent s={sp} />
-        </div>
-      ))}
+      <div style={{
+        display: "flex",
+        transform: `translateX(calc(${-active * 100}% + ${drag}px))`,
+        transition: drag !== 0 ? "none" : "transform 0.4s cubic-bezier(.25,.8,.25,1)",
+        height: "100%",
+      }}>
+        {spots.map((sp) => (
+          <div key={sp.id} style={{
+            flex: "0 0 100%", width: "100%",
+            overflowY: "auto", scrollbarWidth: "none",
+            WebkitOverflowScrolling: "touch",
+          }}>
+            <DetailContent s={sp} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
