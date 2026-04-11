@@ -476,7 +476,7 @@ function DetailContent({ s }) {
 /* ── App ── */
 export default function App() {
   const [active, setActive] = useState(0);
-  const [mapOpen, setMapOpen] = useState(false);
+  const [mapOpen, setMapOpen] = useState(true);
   const scrollRef = useRef(null);
   const lock = useRef(false);
 
