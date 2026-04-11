@@ -237,9 +237,9 @@ function ImageSlider({ images, color, hero }) {
 }
 
 /* ── Glass Card ── */
-function Card({ s, isCurrent, onTap }) {
+function Card({ s, isCurrent, onTap, onFocus }) {
   return (
-    <div onClick={onTap} style={{ cursor: "pointer",
+    <div onClick={onFocus} style={{ cursor: "pointer",
       background: "rgba(255,255,255,0.72)",
       backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
       borderRadius: 22, padding: "0 20px 16px",
@@ -276,7 +276,7 @@ function Card({ s, isCurrent, onTap }) {
 
       <p style={{ fontSize: 13, color: "#444", lineHeight: 1.75, margin: 0, flex: 1 }}>{s.desc}</p>
 
-      <div style={{
+      <div onClick={(e) => { e.stopPropagation(); onTap(); }} style={{
         display: "flex", alignItems: "center", justifyContent: "center",
         gap: 4, marginTop: 12, padding: "8px 0 2px",
         borderTop: "1px solid rgba(0,0,0,0.06)",
@@ -581,7 +581,7 @@ export default function App() {
                 ...(i === 0 ? { marginLeft: "8%" } : {}),
                 ...(i === SPOTS.length - 1 ? { marginRight: "8%" } : {}),
               }}>
-                <Card s={sp} isCurrent={i === active} onTap={() => setMapOpen(false)} />
+                <Card s={sp} isCurrent={i === active} onTap={() => setMapOpen(false)} onFocus={() => goTo(i)} />
               </div>
             ))}
           </div>
