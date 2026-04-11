@@ -1,8 +1,53 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Landmark, UtensilsCrossed, Mountain } from "lucide-react";
+
+// Custom torii gate icon
+function ToriiIcon({ size = 20, color = "currentColor" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 5h16" /><path d="M3 3c0 0 2 3 9 3s9-3 9-3" /><path d="M6 5v17" /><path d="M18 5v17" /><path d="M4 9h16" />
+    </svg>
+  );
+}
+
+// Custom onsen (♨) icon - Japanese hot spring mark
+function OnsenIcon({ size = 20, color = "currentColor" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill={color}>
+      <path d="M50 100c-16.5 0-30-11.5-30-25.5C20 64 35 58 35 58s-2.5 10 0 16.5S42 85 50 85s12.5-4 15-10.5S65 58 65 58s15 6 15 16.5C80 88.5 66.5 100 50 100z"/>
+      <path d="M30 45c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" strokeWidth="6" stroke={color} fill="none" strokeLinecap="round"/>
+      <path d="M50 48c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" strokeWidth="6" stroke={color} fill="none" strokeLinecap="round"/>
+      <path d="M70 45c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" strokeWidth="6" stroke={color} fill="none" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+const ICON_MAP = {
+  landmark: Landmark,
+  shrine: ToriiIcon,
+  food: UtensilsCrossed,
+  mountain: Mountain,
+  onsen: OnsenIcon,
+};
+
+function SpotIcon({ icon, size = 20, color = "currentColor" }) {
+  const Icon = ICON_MAP[icon];
+  if (!Icon) return null;
+  return <Icon size={size} color={color} strokeWidth={2} />;
+}
+
+// SVG strings for map markers
+const MARKER_SVG = {
+  landmark: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`,
+  shrine: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16"/><path d="M3 3c0 0 2 3 9 3s9-3 9-3"/><path d="M6 5v17"/><path d="M18 5v17"/><path d="M4 9h16"/></svg>`,
+  food: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c1.7 1.7 4.3 1.7 6 0"/><path d="m2 22 5.5-1.5L21.17 6.83a2.82 2.82 0 0 0-4-4L3.5 16.5Z"/></svg>`,
+  mountain: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`,
+  onsen: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 100 100" fill="currentColor"><path d="M50 100c-16.5 0-30-11.5-30-25.5C20 64 35 58 35 58s-2.5 10 0 16.5S42 85 50 85s12.5-4 15-10.5S65 58 65 58s15 6 15 16.5C80 88.5 66.5 100 50 100z"/><path d="M30 45c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" stroke-width="6" stroke="currentColor" fill="none" stroke-linecap="round"/><path d="M50 48c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" stroke-width="6" stroke="currentColor" fill="none" stroke-linecap="round"/><path d="M70 45c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" stroke-width="6" stroke="currentColor" fill="none" stroke-linecap="round"/></svg>`,
+};
 
 const SPOTS = [
   {
-    id: 0, time: "9:00", end: "10:00", icon: "⛩", label: "箱根関所 旅物語館",
+    id: 0, time: "9:00", end: "10:00", icon: "landmark", label: "箱根関所 旅物語館",
     sub: "Hakone Sekisho Tabimonogatarikan", note: "箱根町港駐車場に停めてここから徒歩",
     rating: 3.9, reviews: 7545, hours: "9:00–16:30",
     desc: "江戸時代の関所を復元。芦ノ湖を望む絶景ポイントでもあり、歴史と景色を同時に楽しめます。",
@@ -12,7 +57,7 @@ const SPOTS = [
     url: "https://www.shizutetsu-retailing.com/hakone/",
   },
   {
-    id: 1, time: "10:15", end: "11:45", icon: "⛩", label: "箱根神社",
+    id: 1, time: "10:15", end: "11:45", icon: "shrine", label: "箱根神社",
     sub: "Hakone Shrine", note: "車で移動、元箱根駐車場へ",
     rating: 4.4, reviews: 18984, hours: "24時間",
     desc: "杉の巨木に囲まれた荘厳な境内。芦ノ湖に浮かぶ平和の鳥居は必見の撮影スポット。",
@@ -22,7 +67,7 @@ const SPOTS = [
     url: "https://hakonejinja.or.jp/",
   },
   {
-    id: 2, time: "12:00", end: "13:15", icon: "🍜", label: "深生そば",
+    id: 2, time: "12:00", end: "13:15", icon: "food", label: "深生そば",
     sub: "Shinshō Soba", note: "箱根神社からすぐ。水曜定休注意！",
     rating: 3.9, reviews: 1051, hours: "11:00–15:00",
     desc: "元箱根の人気蕎麦店。大きな海老天ぷらが名物。2階からの芦ノ湖ビューも◎",
@@ -32,7 +77,7 @@ const SPOTS = [
     url: "https://shinshou-soba.com/",
   },
   {
-    id: 3, time: "13:30", end: "15:15", icon: "🌋", label: "大涌谷",
+    id: 3, time: "13:30", end: "15:15", icon: "mountain", label: "大涌谷",
     sub: "Owakudani", note: "車で直接アクセス。黒たまご必食",
     rating: 4.4, reviews: 5652, hours: "9:00–16:20",
     desc: "噴煙が立ち上る火山活動を間近で体感。名物の黒たまごは寿命7年延長の言い伝え。晴れなら富士山も。",
@@ -42,7 +87,7 @@ const SPOTS = [
     url: "https://owakudani.com/",
   },
   {
-    id: 4, time: "15:30", end: "17:45", icon: "🔥", label: "箱根湯寮",
+    id: 4, time: "15:30", end: "17:45", icon: "onsen", label: "箱根湯寮",
     sub: "Hakone Yuryo", note: "大涌谷から箱根湯本方面へ戻る",
     rating: 4.3, reviews: 5364, hours: "10:00–20:00",
     desc: "森に囲まれた露天風呂とサウナで極上の「ととのい」体験。旅の締めくくりに最高。",
@@ -86,7 +131,7 @@ function Map({ spots, active, onTap, visible }) {
         className: "", iconSize: [0, 0], iconAnchor: [0, 40],
         html: `<div style="display:flex;flex-direction:column;align-items:center;transform:translateX(-50%)">
           <div id="mb${i}" style="background:rgba(255,255,255,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#333;padding:4px 10px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap;box-shadow:0 2px 12px rgba(0,0,0,.18);border:2px solid ${s.color};transition:all .3s;font-family:'Noto Sans JP',sans-serif;display:flex;align-items:center;gap:3px">
-            ${s.icon}<span>${s.label}</span>
+            ${MARKER_SVG[s.icon] || ""}<span>${s.label}</span>
           </div>
           <div id="ma${i}" style="width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid rgba(255,255,255,.92);filter:drop-shadow(0 1px 2px rgba(0,0,0,.1));transition:all .3s"></div>
         </div>`,
@@ -214,8 +259,8 @@ function Card({ s, isCurrent, onTap }) {
         <div style={{
           width: 46, height: 46, borderRadius: 14,
           background: `rgba(${s.color === "#C0392B" ? "192,57,43" : s.color === "#E74C3C" ? "231,76,60" : s.color === "#E67E22" ? "230,126,34" : s.color === "#8E44AD" ? "142,68,173" : "41,128,185"},0.12)`,
-          display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24,
-        }}>{s.icon}</div>
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}><SpotIcon icon={s.icon} size={22} color={s.color} /></div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 19, fontWeight: 700, color: "#1a1a1a", fontFamily: "'Noto Serif JP',serif", lineHeight: 1.2 }}>{s.label}</div>
           <div style={{ fontSize: 10, color: "#999", marginTop: 2 }}>{s.sub}</div>
@@ -281,30 +326,41 @@ function SwipeableDetail({ active, setActive, spots }) {
   const [drag, setDrag] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
 
-  const onTouchStart = (e) => {
-    if (transitioning) return;
-    // Check if touch originated in image slider
-    let el = e.target;
-    while (el && el !== containerRef.current) {
-      if (el.dataset && el.dataset.imgslider) { touch.current.isImg = true; return; }
-      el = el.parentElement;
-    }
-    touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, locked: false, isImg: false };
-  };
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
 
-  const onTouchMove = (e) => {
-    if (touch.current.isImg || transitioning) return;
-    const dx = e.touches[0].clientX - touch.current.x;
-    const dy = e.touches[0].clientY - touch.current.y;
-    if (!touch.current.locked) {
-      if (Math.abs(dy) > Math.abs(dx)) { touch.current.isImg = true; return; } // vertical = scroll
-      if (Math.abs(dx) > 8) touch.current.locked = true;
-      else return;
-    }
-    // Resist at edges
-    const atEdge = (active === 0 && dx > 0) || (active === spots.length - 1 && dx < 0);
-    setDrag(atEdge ? dx * 0.2 : dx);
-  };
+    const onStart = (e) => {
+      if (transitioning) return;
+      let target = e.target;
+      while (target && target !== el) {
+        if (target.dataset && target.dataset.imgslider) { touch.current.isImg = true; return; }
+        target = target.parentElement;
+      }
+      touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, locked: false, isImg: false };
+    };
+
+    const onMove = (e) => {
+      if (touch.current.isImg || transitioning) return;
+      const dx = e.touches[0].clientX - touch.current.x;
+      const dy = e.touches[0].clientY - touch.current.y;
+      if (!touch.current.locked) {
+        if (Math.abs(dy) > Math.abs(dx)) { touch.current.isImg = true; return; }
+        if (Math.abs(dx) > 8) touch.current.locked = true;
+        else return;
+      }
+      e.preventDefault();
+      const atEdge = (active === 0 && dx > 0) || (active === spots.length - 1 && dx < 0);
+      setDrag(atEdge ? dx * 0.2 : dx);
+    };
+
+    el.addEventListener("touchstart", onStart, { passive: true });
+    el.addEventListener("touchmove", onMove, { passive: false });
+    return () => {
+      el.removeEventListener("touchstart", onStart);
+      el.removeEventListener("touchmove", onMove);
+    };
+  }, [active, spots.length, transitioning]);
 
   const onTouchEnd = () => {
     if (touch.current.isImg) { touch.current.isImg = false; return; }
@@ -328,8 +384,6 @@ function SwipeableDetail({ active, setActive, spots }) {
   return (
     <div
       ref={containerRef}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
       style={{ flex: 1, overflow: "hidden", position: "relative", minHeight: 0 }}
     >
@@ -370,8 +424,8 @@ function DetailContent({ s }) {
           <div style={{
             width: 52, height: 52, borderRadius: 16,
             background: `rgba(${colorRgb},0.12)`,
-            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28,
-          }}>{s.icon}</div>
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}><SpotIcon icon={s.icon} size={26} color={s.color} /></div>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: "#1a1a1a", fontFamily: "'Noto Serif JP',serif", lineHeight: 1.2 }}>{s.label}</div>
             <div style={{ fontSize: 11, color: "#999", marginTop: 3 }}>{s.sub}</div>
