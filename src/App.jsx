@@ -274,46 +274,18 @@ function Card({ s, isCurrent, onTap }) {
         </div>
       </div>
 
-      {s.drive && (
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 4,
-          background: "rgba(0,0,0,0.04)", borderRadius: 8,
-          padding: "3px 10px", fontSize: 10, color: "#888",
-          marginBottom: 8, alignSelf: "flex-start",
-        }}>🚗 {s.drive}</div>
-      )}
+      <p style={{ fontSize: 13, color: "#444", lineHeight: 1.75, margin: 0, flex: 1 }}>{s.desc}</p>
 
       <div style={{
-        background: "rgba(0,0,0,0.03)", borderRadius: 12,
-        padding: "9px 12px", fontSize: 12, color: "#555",
-        lineHeight: 1.6, marginBottom: 10,
-        borderLeft: `3px solid ${s.color}44`,
-      }}>📌 {s.note}</div>
-
-      <p style={{ fontSize: 13, color: "#444", lineHeight: 1.75, margin: "0 0 10px", flex: 1 }}>{s.desc}</p>
-
-      <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 10 }}>
-        {s.tags.map(t => (
-          <span key={t} style={{
-            fontSize: 10, padding: "3px 10px", borderRadius: 20,
-            background: "rgba(255,255,255,0.6)",
-            border: `1px solid ${s.color}30`,
-            color: s.color, fontWeight: 600,
-          }}>{t}</span>
-        ))}
-      </div>
-
-      <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        fontSize: 11, color: "#999",
-        borderTop: "1px solid rgba(0,0,0,0.06)", paddingTop: 8,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        gap: 4, marginTop: 12, padding: "8px 0 2px",
+        borderTop: "1px solid rgba(0,0,0,0.06)",
+        fontSize: 12, fontWeight: 600, color: s.color,
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <span style={{ color: "#F39C12", fontSize: 12 }}>{"★".repeat(Math.floor(s.rating))}{s.rating % 1 >= 0.3 ? "☆" : ""}</span>
-          <span>{s.rating}</span>
-          <span style={{ color: "#ccc" }}>({s.reviews.toLocaleString()})</span>
-        </div>
-        <span>🕐 {s.hours}</span>
+        詳細を見る
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+        </svg>
       </div>
     </div>
   );
@@ -566,16 +538,23 @@ export default function App() {
           <div style={{ fontSize: mapOpen ? 16 : 20, fontWeight: 700, fontFamily: "'Noto Serif JP',serif", color: "#1a1a1a", transition: "font-size 0.3s" }}>箱根一日旅</div>
           <div style={{ fontSize: 9, color: "#999", letterSpacing: 3, marginTop: 2 }}>HAKONE DAY TRIP</div>
         </div>
-        <button onClick={() => setMapOpen(!mapOpen)} style={{
-          background: "none", border: "none", padding: 0,
-          width: 32, height: 32,
-          fontSize: 20, color: "#999", cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          transition: "transform 0.3s",
-          transform: mapOpen ? "rotate(180deg)" : "rotate(0deg)",
-        }}>
-          ▾
-        </button>
+        {!mapOpen && (
+          <button onClick={() => setMapOpen(true)} style={{
+            background: "rgba(255,255,255,0.7)",
+            border: "1px solid rgba(0,0,0,0.08)",
+            borderRadius: 12, padding: "6px 12px",
+            fontSize: 12, fontWeight: 600,
+            color: "#555", cursor: "pointer",
+            display: "flex", alignItems: "center", gap: 5,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+          }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
+              <path d="M15 5.764v15" /><path d="M9 3.236v15" />
+            </svg>
+            地図
+          </button>
+        )}
       </div>
 
       {mapOpen ? (
