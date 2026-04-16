@@ -47,7 +47,7 @@ const MARKER_SVG = {
 
 const SPOTS = [
   {
-    id: 0, time: "9:00", end: "10:00", icon: "landmark", label: "箱根関所 旅物語館",
+    id: 0, time: "10:00", end: "11:00", icon: "landmark", label: "箱根関所 旅物語館",
     sub: "Hakone Sekisho Tabimonogatarikan", note: "箱根町港駐車場に停めてここから徒歩",
     rating: 3.9, reviews: 7545, hours: "9:00–16:30",
     desc: "江戸時代の関所を復元。芦ノ湖を望む絶景ポイントでもあり、歴史と景色を同時に楽しめます。",
@@ -57,7 +57,7 @@ const SPOTS = [
     url: "https://www.shizutetsu-retailing.com/hakone/",
   },
   {
-    id: 1, time: "10:15", end: "11:45", icon: "shrine", label: "箱根神社",
+    id: 1, time: "11:15", end: "12:45", icon: "shrine", label: "箱根神社",
     sub: "Hakone Shrine", note: "車で移動、元箱根駐車場へ",
     rating: 4.4, reviews: 18984, hours: "24時間",
     desc: "杉の巨木に囲まれた荘厳な境内。芦ノ湖に浮かぶ平和の鳥居は必見の撮影スポット。",
@@ -67,7 +67,7 @@ const SPOTS = [
     url: "https://hakonejinja.or.jp/",
   },
   {
-    id: 2, time: "12:00", end: "13:15", icon: "food", label: "深生そば",
+    id: 2, time: "13:00", end: "14:15", icon: "food", label: "深生そば",
     sub: "Shinshō Soba", note: "箱根神社からすぐ。水曜定休注意！",
     rating: 3.9, reviews: 1051, hours: "11:00–15:00",
     desc: "元箱根の人気蕎麦店。大きな海老天ぷらが名物。2階からの芦ノ湖ビューも◎",
@@ -77,7 +77,7 @@ const SPOTS = [
     url: "https://shinshou-soba.com/",
   },
   {
-    id: 3, time: "13:30", end: "15:15", icon: "mountain", label: "大涌谷",
+    id: 3, time: "14:30", end: "16:15", icon: "mountain", label: "大涌谷",
     sub: "Owakudani", note: "車で直接アクセス。黒たまご必食",
     rating: 4.4, reviews: 5652, hours: "9:00–16:20",
     desc: "噴煙が立ち上る火山活動を間近で体感。名物の黒たまごは寿命7年延長の言い伝え。晴れなら富士山も。",
@@ -87,7 +87,7 @@ const SPOTS = [
     url: "https://owakudani.com/",
   },
   {
-    id: 4, time: "15:30", end: "17:45", icon: "onsen", label: "箱根湯寮",
+    id: 4, time: "16:30", end: "18:45", icon: "onsen", label: "箱根湯寮",
     sub: "Hakone Yuryo", note: "大涌谷から箱根湯本方面へ戻る",
     rating: 4.3, reviews: 5364, hours: "10:00–20:00",
     desc: "森に囲まれた露天風呂とサウナで極上の「ととのい」体験。旅の締めくくりに最高。",
