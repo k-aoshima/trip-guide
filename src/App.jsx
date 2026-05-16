@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Landmark, UtensilsCrossed, Mountain } from "lucide-react";
+import {
+  Landmark, UtensilsCrossed, Mountain,
+  Plane, Hotel, TreePine, Droplets, ShoppingBasket,
+  Menu, X,
+} from "lucide-react";
 
 // Custom torii gate icon
 function ToriiIcon({ size = 20, color = "currentColor" }) {
@@ -28,6 +32,11 @@ const ICON_MAP = {
   food: UtensilsCrossed,
   mountain: Mountain,
   onsen: OnsenIcon,
+  plane: Plane,
+  hotel: Hotel,
+  tree: TreePine,
+  water: Droplets,
+  market: ShoppingBasket,
 };
 
 function SpotIcon({ icon, size = 20, color = "currentColor" }) {
@@ -43,9 +52,20 @@ const MARKER_SVG = {
   food: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c1.7 1.7 4.3 1.7 6 0"/><path d="m2 22 5.5-1.5L21.17 6.83a2.82 2.82 0 0 0-4-4L3.5 16.5Z"/></svg>`,
   mountain: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`,
   onsen: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 100 100" fill="currentColor"><path d="M50 100c-16.5 0-30-11.5-30-25.5C20 64 35 58 35 58s-2.5 10 0 16.5S42 85 50 85s12.5-4 15-10.5S65 58 65 58s15 6 15 16.5C80 88.5 66.5 100 50 100z"/><path d="M30 45c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" stroke-width="6" stroke="currentColor" fill="none" stroke-linecap="round"/><path d="M50 48c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" stroke-width="6" stroke="currentColor" fill="none" stroke-linecap="round"/><path d="M70 45c0 0 3-5 3-10s-3-10-3-15 3-10 3-15" stroke-width="6" stroke="currentColor" fill="none" stroke-linecap="round"/></svg>`,
+  plane: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>`,
+  hotel: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 22v-6.57"/><path d="M12 11h.01"/><path d="M12 7h.01"/><path d="M14 15.43V22"/><path d="M15 16a5 5 0 0 0-6 0"/><path d="M16 11h.01"/><path d="M16 7h.01"/><path d="M8 11h.01"/><path d="M8 7h.01"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>`,
+  tree: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14v7"/><path d="M17 3v3"/><path d="M9 18v3"/><path d="M9 3v12"/><circle cx="9" cy="18" r="3"/><circle cx="9" cy="3" r="1"/><circle cx="17" cy="6" r="3"/><circle cx="17" cy="11" r="1"/></svg>`,
+  water: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>`,
+  market: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 11 4-7"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"/><path d="m9 11 1 9"/><path d="M4.5 15.5h15"/><path d="m15 11-1 9"/></svg>`,
 };
 
-const SPOTS = [
+function hexToRgb(hex) {
+  const h = hex.replace("#", "");
+  return `${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)}`;
+}
+
+/* ── Plans Data ── */
+const HAKONE_SPOTS = [
   {
     id: 0, time: "10:00", end: "11:00", icon: "landmark", label: "箱根関所 旅物語館",
     sub: "Hakone Sekisho Tabimonogatarikan", note: "箱根町港駐車場に停めてここから徒歩",
@@ -98,10 +118,111 @@ const SPOTS = [
   },
 ];
 
+const HOKKAIDO_DAY1 = [
+  {
+    id: 0, time: "09:45", end: "10:30", icon: "plane", label: "新千歳空港 到着",
+    sub: "New Chitose Airport", note: "成田 08:00発 → 新千歳 09:45着。レンタカーをピックアップ",
+    rating: 4.2, reviews: 0, hours: "—",
+    desc: "北海道旅のスタート地点。レンタカーを受け取り、いよいよ函館方面へ南下。長時間ドライブに備えて飲み物・軽食を確保しておこう。",
+    lat: 42.7752, lng: 141.6923, color: "#3498DB",
+    tags: ["到着", "レンタカー", "出発"], drive: null,
+    url: "https://www.new-chitose-airport.jp/",
+  },
+  {
+    id: 1, time: "14:30", end: "15:30", icon: "food", label: "ラッキーピエロ マリーナ末広店",
+    sub: "Lucky Pierrot Marina Suehiro", note: "函館の名物バーガー。海を眺めながら昼食",
+    rating: 4.4, reviews: 1800, hours: "10:00–24:00",
+    desc: "函館っ子のソウルフード「ラッキーピエロ」。チャイニーズチキンバーガーが名物。マリーナ末広店はベイエリアの海沿いで眺めも抜群。",
+    lat: 41.7669, lng: 140.7188, color: "#E74C3C",
+    tags: ["ご当地バーガー", "海沿い", "B級グルメ"], drive: "車 約4時間 (千歳→函館)",
+    url: "https://luckypierrot.jp/",
+  },
+  {
+    id: 2, time: "15:50", end: "17:00", icon: "landmark", label: "五稜郭",
+    sub: "Goryokaku", note: "星形の城郭。五稜郭タワーから全景を",
+    rating: 4.3, reviews: 12000, hours: "5:00–19:00 (タワー 9:00–18:00)",
+    desc: "幕末に築かれた日本初の西洋式星形城郭。タワー展望台から見下ろす五芒星のフォルムは圧巻。歴史好きにも写真好きにも。",
+    lat: 41.7972, lng: 140.7569, color: "#27AE60",
+    tags: ["星形要塞", "幕末", "展望"], drive: "車 約20分",
+    url: "https://www.goryokaku-tower.co.jp/",
+  },
+  {
+    id: 3, time: "21:00", end: "—", icon: "hotel", label: "ホテルフォルツァ札幌駅前",
+    sub: "Hotel Forza Sapporo Ekimae", note: "函館→札幌 約4時間ドライブ。チェックイン後ゆっくり",
+    rating: 4.3, reviews: 1500, hours: "チェックイン 15:00–",
+    desc: "札幌駅徒歩圏のスタイリッシュなホテル。長距離ドライブの疲れを癒すバスタブ・アメニティも充実。翌朝の朝市にもアクセス良好。",
+    lat: 43.0686, lng: 141.3504, color: "#8E44AD",
+    tags: ["札幌駅前", "宿泊", "アクセス◎"], drive: "車 約4時間 (函館→札幌)",
+    url: "https://www.hotelforza.jp/sapporo-ekimae/",
+  },
+];
+
+const HOKKAIDO_DAY2 = [
+  {
+    id: 0, time: "06:00", end: "07:00", icon: "market", label: "札幌二条市場",
+    sub: "Sapporo Nijo Market", note: "5時起床、徒歩 or 車ですぐ。朝食に海鮮丼",
+    rating: 4.0, reviews: 5200, hours: "6:00頃–18:00",
+    desc: "札幌の台所と呼ばれる老舗市場。豪快な海鮮丼や焼きガニで朝から贅沢に。新鮮なウニ・イクラ・カニを朝イチで味わおう。",
+    lat: 43.0606, lng: 141.3567, color: "#E67E22",
+    tags: ["朝市", "海鮮丼", "ウニイクラ"], drive: "ホテルから車5分",
+    url: "https://nijomarket.com/",
+  },
+  {
+    id: 1, time: "09:30", end: "10:30", icon: "water", label: "青い池",
+    sub: "Blue Pond (Aoiike)", note: "美瑛・白金温泉エリア。札幌から約2.5時間",
+    rating: 4.3, reviews: 15000, hours: "7:00–19:00",
+    desc: "コバルトブルーに輝く神秘の池。立ち枯れた白樺と青い水面のコントラストは唯一無二。光の角度で色味が変化する。",
+    lat: 43.4926, lng: 142.5076, color: "#1ABC9C",
+    tags: ["絶景", "美瑛", "コバルトブルー"], drive: "車 約2時間30分",
+    url: "https://www.biei-hokkaido.jp/ja/sightseeing/shirogane-aoiike/",
+  },
+  {
+    id: 2, time: "10:40", end: "11:10", icon: "tree", label: "セブンスターの木",
+    sub: "Seven Star Tree", note: "美瑛の丘に佇む一本の柏の木",
+    rating: 4.0, reviews: 800, hours: "24時間",
+    desc: "1976年「セブンスター」のタバコパッケージに採用された一本の柏の木。なだらかな美瑛の丘と空の中、ぽつんと立つ姿が美しい。",
+    lat: 43.7203, lng: 142.4225, color: "#16A085",
+    tags: ["美瑛の丘", "シンボルツリー", "写真"], drive: "車 約20分",
+    url: "https://www.biei-hokkaido.jp/ja/sightseeing/seven-star/",
+  },
+  {
+    id: 3, time: "14:00", end: "—", icon: "plane", label: "新千歳空港",
+    sub: "New Chitose Airport", note: "美瑛から約2.5時間。レンタカー返却→搭乗",
+    rating: 4.2, reviews: 0, hours: "—",
+    desc: "旅の終着点。最後はお土産タイム。北海道銘菓「白い恋人」「ロイズ」などを買い込んで、思い出と一緒に持ち帰ろう。",
+    lat: 42.7752, lng: 141.6923, color: "#3498DB",
+    tags: ["お土産", "レンタカー返却", "帰路"], drive: "車 約2時間30分",
+    url: "https://www.new-chitose-airport.jp/",
+  },
+];
+
+const PLANS = {
+  hakone: {
+    id: "hakone",
+    title: "箱根一日旅",
+    subtitle: "HAKONE DAY TRIP",
+    accent: "#E74C3C",
+    icon: "shrine",
+    days: [{ label: "Day 1", spots: HAKONE_SPOTS }],
+  },
+  hokkaido: {
+    id: "hokkaido",
+    title: "北海道1泊2日",
+    subtitle: "HOKKAIDO 2-DAY TRIP",
+    accent: "#3498DB",
+    icon: "plane",
+    days: [
+      { label: "Day 1", spots: HOKKAIDO_DAY1 },
+      { label: "Day 2", spots: HOKKAIDO_DAY2 },
+    ],
+  },
+};
+
 /* ── Map ── */
 function Map({ spots, active, onTap, visible }) {
   const el = useRef(null);
   const map = useRef(null);
+  const layers = useRef([]);
   const [ok, setOk] = useState(false);
 
   useEffect(() => {
@@ -116,15 +237,26 @@ function Map({ spots, active, onTap, visible }) {
   }, []);
 
   useEffect(() => {
-    if (!ok || !el.current || map.current) return;
+    if (!ok || !el.current) return;
     const L = window.L;
-    const m = L.map(el.current, { zoomControl: false, attributionControl: false }).setView([35.215, 139.05], 13);
-    L.tileLayer("https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", { maxZoom: 18 }).addTo(m);
-    L.control.zoom({ position: "topright" }).addTo(m);
 
-    const coords = spots.map(s => [s.lat, s.lng]);
-    L.polyline(coords, { color: "#000", weight: 7, opacity: 0.06, lineCap: "round", lineJoin: "round" }).addTo(m);
-    L.polyline(coords, { color: "#E74C3C", weight: 3, opacity: 0.8, lineCap: "round", lineJoin: "round" }).addTo(m);
+    if (!map.current) {
+      const m = L.map(el.current, { zoomControl: false, attributionControl: false });
+      L.tileLayer("https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", { maxZoom: 18 }).addTo(m);
+      L.control.zoom({ position: "topright" }).addTo(m);
+      map.current = m;
+    }
+
+    // Clear previous layers
+    layers.current.forEach((l) => map.current.removeLayer(l));
+    layers.current = [];
+
+    if (!spots || spots.length === 0) return;
+
+    const coords = spots.map((s) => [s.lat, s.lng]);
+    const shadow = L.polyline(coords, { color: "#000", weight: 7, opacity: 0.06, lineCap: "round", lineJoin: "round" }).addTo(map.current);
+    const line = L.polyline(coords, { color: "#E74C3C", weight: 3, opacity: 0.8, lineCap: "round", lineJoin: "round" }).addTo(map.current);
+    layers.current.push(shadow, line);
 
     spots.forEach((s, i) => {
       const icon = L.divIcon({
@@ -136,16 +268,19 @@ function Map({ spots, active, onTap, visible }) {
           <div id="ma${i}" style="width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid rgba(255,255,255,.92);filter:drop-shadow(0 1px 2px rgba(0,0,0,.1));transition:all .3s"></div>
         </div>`,
       });
-      L.marker([s.lat, s.lng], { icon }).addTo(m).on("click", () => onTap(i));
+      const marker = L.marker([s.lat, s.lng], { icon }).addTo(map.current).on("click", () => onTap(i));
+      layers.current.push(marker);
     });
 
-    m.fitBounds(L.latLngBounds(coords), { padding: [40, 40], maxZoom: 14 });
-    map.current = m;
-    return () => { m.remove(); map.current = null; };
-  }, [ok]);
+    map.current.fitBounds(L.latLngBounds(coords), { padding: [40, 40], maxZoom: 14 });
+
+    return () => {
+      // Cleanup happens on next run via layers clearing
+    };
+  }, [ok, spots]);
 
   useEffect(() => {
-    if (!map.current) return;
+    if (!map.current || !spots) return;
     spots.forEach((s, i) => {
       const b = document.getElementById(`mb${i}`);
       const a = document.getElementById(`ma${i}`);
@@ -157,10 +292,10 @@ function Map({ spots, active, onTap, visible }) {
       b.style.boxShadow = on ? `0 4px 20px ${s.color}66` : "0 2px 12px rgba(0,0,0,.18)";
       a.style.borderTopColor = on ? s.color : "rgba(255,255,255,.92)";
     });
-    if (active != null) {
+    if (active != null && spots[active]) {
       map.current.flyTo([spots[active].lat, spots[active].lng], 14, { duration: 0.5 });
     }
-  }, [active]);
+  }, [active, spots]);
 
   useEffect(() => {
     if (visible && map.current) {
@@ -168,9 +303,39 @@ function Map({ spots, active, onTap, visible }) {
     }
   }, [visible]);
 
+  useEffect(() => {
+    return () => {
+      if (map.current) { map.current.remove(); map.current = null; }
+    };
+  }, []);
+
   return (
     <div ref={el} style={{ width: "100%", height: "100%" }}>
       {!ok && <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#e8e4de", color: "#999", fontSize: 13 }}>読み込み中...</div>}
+    </div>
+  );
+}
+
+/* ── Placeholder Hero ── */
+function PlaceholderHero({ s, hero }) {
+  const h = hero ? 320 : 120;
+  const radius = hero ? "0" : "22px 22px 14px 14px";
+  return (
+    <div style={{
+      height: h,
+      borderRadius: radius,
+      margin: hero ? 0 : "0 -20px 12px",
+      background: `linear-gradient(135deg, ${s.color}22 0%, ${s.color}66 100%)`,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      position: "relative", overflow: "hidden",
+    }}>
+      <div style={{ opacity: 0.4 }}>
+        <SpotIcon icon={s.icon} size={hero ? 110 : 56} color={s.color} />
+      </div>
+      <div style={{
+        position: "absolute", bottom: hero ? 16 : 8, right: hero ? 20 : 12,
+        fontSize: 9, color: `${s.color}aa`, letterSpacing: 2, fontWeight: 700,
+      }}>NO IMAGE</div>
     </div>
   );
 }
@@ -238,6 +403,7 @@ function ImageSlider({ images, color, hero }) {
 
 /* ── Glass Card ── */
 function Card({ s, isCurrent, onTap, onFocus }) {
+  const colorRgb = hexToRgb(s.color);
   return (
     <div onClick={onFocus} style={{ cursor: "pointer",
       background: "rgba(255,255,255,0.72)",
@@ -258,7 +424,7 @@ function Card({ s, isCurrent, onTap, onFocus }) {
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, marginTop: 14 }}>
         <div style={{
           width: 46, height: 46, borderRadius: 14,
-          background: `rgba(${s.color === "#C0392B" ? "192,57,43" : s.color === "#E74C3C" ? "231,76,60" : s.color === "#E67E22" ? "230,126,34" : s.color === "#8E44AD" ? "142,68,173" : "41,128,185"},0.12)`,
+          background: `rgba(${colorRgb},0.12)`,
           display: "flex", alignItems: "center", justifyContent: "center",
         }}><SpotIcon icon={s.icon} size={22} color={s.color} /></div>
         <div style={{ flex: 1 }}>
@@ -266,7 +432,7 @@ function Card({ s, isCurrent, onTap, onFocus }) {
           <div style={{ fontSize: 10, color: "#999", marginTop: 2 }}>{s.sub}</div>
         </div>
         <div style={{
-          background: `rgba(${s.color === "#C0392B" ? "192,57,43" : s.color === "#E74C3C" ? "231,76,60" : s.color === "#E67E22" ? "230,126,34" : s.color === "#8E44AD" ? "142,68,173" : "41,128,185"},0.1)`,
+          background: `rgba(${colorRgb},0.1)`,
           borderRadius: 12, padding: "6px 12px", textAlign: "center",
         }}>
           <div style={{ fontSize: 16, fontWeight: 800, color: s.color, lineHeight: 1 }}>{s.time}</div>
@@ -381,13 +547,16 @@ function SwipeableDetail({ active, setActive, spots }) {
 
 /* ── Full Detail Content ── */
 function DetailContent({ s }) {
-  const colorRgb = s.color === "#C0392B" ? "192,57,43" : s.color === "#E74C3C" ? "231,76,60" : s.color === "#E67E22" ? "230,126,34" : s.color === "#8E44AD" ? "142,68,173" : "41,128,185";
+  const colorRgb = hexToRgb(s.color);
+  const hasImages = s.images && s.images.length > 0;
 
   return (
     <div>
-      {/* Hero image slider */}
-      {s.images && s.images.length > 0 && (
+      {/* Hero image slider or placeholder */}
+      {hasImages ? (
         <ImageSlider images={s.images} color={s.color} hero />
+      ) : (
+        <PlaceholderHero s={s} hero />
       )}
 
       <div style={{ padding: "16px 20px 80px" }}>
@@ -430,43 +599,49 @@ function DetailContent({ s }) {
         )}
 
         {/* Note */}
-        <div style={{
-          background: "rgba(255,255,255,0.6)", borderRadius: 14,
-          padding: "12px 16px", fontSize: 13, color: "#555",
-          lineHeight: 1.7, marginBottom: 16,
-          borderLeft: `4px solid ${s.color}66`,
-        }}>📌 {s.note}</div>
+        {s.note && (
+          <div style={{
+            background: "rgba(255,255,255,0.6)", borderRadius: 14,
+            padding: "12px 16px", fontSize: 13, color: "#555",
+            lineHeight: 1.7, marginBottom: 16,
+            borderLeft: `4px solid ${s.color}66`,
+          }}>📌 {s.note}</div>
+        )}
 
         {/* Description */}
         <p style={{ fontSize: 15, color: "#444", lineHeight: 1.85, margin: "0 0 16px" }}>{s.desc}</p>
 
         {/* Tags */}
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
-          {s.tags.map(t => (
-            <span key={t} style={{
-              fontSize: 11, padding: "5px 14px", borderRadius: 20,
-              background: "rgba(255,255,255,0.7)",
-              border: `1px solid ${s.color}30`,
-              color: s.color, fontWeight: 600,
-            }}>{t}</span>
-          ))}
-        </div>
+        {s.tags && s.tags.length > 0 && (
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
+            {s.tags.map(t => (
+              <span key={t} style={{
+                fontSize: 11, padding: "5px 14px", borderRadius: 20,
+                background: "rgba(255,255,255,0.7)",
+                border: `1px solid ${s.color}30`,
+                color: s.color, fontWeight: 600,
+              }}>{t}</span>
+            ))}
+          </div>
+        )}
 
         {/* Rating */}
-        <div style={{
-          display: "flex", justifyContent: "space-between", alignItems: "center",
-          fontSize: 12, color: "#999",
-          background: "rgba(255,255,255,0.5)", borderRadius: 12,
-          padding: "10px 14px",
-          marginBottom: 16,
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <span style={{ color: "#F39C12", fontSize: 14 }}>{"★".repeat(Math.floor(s.rating))}{s.rating % 1 >= 0.3 ? "☆" : ""}</span>
-            <span style={{ fontWeight: 600, color: "#666" }}>{s.rating}</span>
-            <span style={{ color: "#bbb" }}>({s.reviews.toLocaleString()}件)</span>
+        {s.rating > 0 && (
+          <div style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            fontSize: 12, color: "#999",
+            background: "rgba(255,255,255,0.5)", borderRadius: 12,
+            padding: "10px 14px",
+            marginBottom: 16,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <span style={{ color: "#F39C12", fontSize: 14 }}>{"★".repeat(Math.floor(s.rating))}{s.rating % 1 >= 0.3 ? "☆" : ""}</span>
+              <span style={{ fontWeight: 600, color: "#666" }}>{s.rating}</span>
+              {s.reviews > 0 && <span style={{ color: "#bbb" }}>({s.reviews.toLocaleString()}件)</span>}
+            </div>
+            <span>🕐 {s.hours}</span>
           </div>
-          <span>🕐 {s.hours}</span>
-        </div>
+        )}
 
         {/* Google Maps link */}
         <a
@@ -495,32 +670,179 @@ function DetailContent({ s }) {
   );
 }
 
+/* ── Plan Menu (drawer) ── */
+function PlanMenu({ open, onClose, currentPlanId, onSelectPlan }) {
+  return (
+    <>
+      <div
+        onClick={onClose}
+        style={{
+          position: "absolute", inset: 0,
+          background: "rgba(0,0,0,0.4)",
+          opacity: open ? 1 : 0,
+          pointerEvents: open ? "auto" : "none",
+          transition: "opacity 0.3s",
+          zIndex: 100,
+        }}
+      />
+      <div style={{
+        position: "absolute", top: 0, left: 0, bottom: 0,
+        width: 280, maxWidth: "82%",
+        background: "rgba(252,250,247,0.96)",
+        backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
+        transform: open ? "translateX(0)" : "translateX(-100%)",
+        transition: "transform 0.35s cubic-bezier(.32,.72,.32,1)",
+        zIndex: 101,
+        boxShadow: open ? "4px 0 32px rgba(0,0,0,0.18)" : "none",
+        display: "flex", flexDirection: "column",
+        paddingTop: "env(safe-area-inset-top, 0px)",
+      }}>
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "20px 20px 16px",
+          borderBottom: "1px solid rgba(0,0,0,0.06)",
+        }}>
+          <div>
+            <div style={{ fontSize: 10, color: "#999", letterSpacing: 3, fontWeight: 600 }}>PLANS</div>
+            <div style={{ fontSize: 19, fontWeight: 700, fontFamily: "'Noto Serif JP',serif", marginTop: 4 }}>旅のしおり</div>
+          </div>
+          <button onClick={onClose} style={{
+            background: "transparent", border: "none", cursor: "pointer",
+            width: 32, height: 32, borderRadius: 10,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <X size={20} color="#666" />
+          </button>
+        </div>
+
+        <div style={{ flex: 1, overflowY: "auto", padding: "8px 0" }}>
+          {Object.values(PLANS).map((p) => {
+            const isActive = p.id === currentPlanId;
+            const rgb = hexToRgb(p.accent);
+            return (
+              <div
+                key={p.id}
+                onClick={() => onSelectPlan(p.id)}
+                style={{
+                  padding: "14px 20px", cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: 14,
+                  background: isActive ? `rgba(${rgb},0.08)` : "transparent",
+                  borderLeft: `3px solid ${isActive ? p.accent : "transparent"}`,
+                  transition: "background 0.2s",
+                }}
+              >
+                <div style={{
+                  width: 42, height: 42, borderRadius: 13,
+                  background: `rgba(${rgb},0.14)`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  flexShrink: 0,
+                }}>
+                  <SpotIcon icon={p.icon} size={22} color={p.accent} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "#1a1a1a", fontFamily: "'Noto Serif JP',serif", lineHeight: 1.2 }}>{p.title}</div>
+                  <div style={{ fontSize: 9, color: "#aaa", letterSpacing: 2, marginTop: 3 }}>{p.subtitle}</div>
+                  <div style={{ fontSize: 10, color: "#888", marginTop: 4 }}>
+                    {p.days.length === 1 ? `${p.days[0].spots.length}スポット` : `${p.days.length}日間 / ${p.days.reduce((sum, d) => sum + d.spots.length, 0)}スポット`}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ padding: "12px 20px calc(env(safe-area-inset-bottom, 0px) + 14px)", borderTop: "1px solid rgba(0,0,0,0.06)" }}>
+          <div style={{ fontSize: 10, color: "#bbb", letterSpacing: 1 }}>TRIP GUIDE</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ── Day Tabs ── */
+function DayTabs({ days, activeDay, onChange, accent }) {
+  const rgb = hexToRgb(accent);
+  return (
+    <div style={{
+      display: "flex", gap: 6,
+      padding: "0 20px 8px",
+      flexShrink: 0,
+    }}>
+      {days.map((d, i) => {
+        const on = i === activeDay;
+        return (
+          <button
+            key={i}
+            onClick={() => onChange(i)}
+            style={{
+              flex: 1,
+              padding: "8px 12px",
+              borderRadius: 12,
+              border: `1px solid ${on ? accent : "rgba(0,0,0,0.08)"}`,
+              background: on ? `rgba(${rgb},0.12)` : "rgba(255,255,255,0.6)",
+              color: on ? accent : "#777",
+              fontSize: 12, fontWeight: 700,
+              fontFamily: "'Noto Sans JP',sans-serif",
+              cursor: "pointer",
+              transition: "all 0.2s",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+            }}
+          >
+            <span style={{ fontSize: 11, letterSpacing: 1 }}>{d.label}</span>
+            <span style={{ fontSize: 9, opacity: 0.7 }}>{d.spots.length}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 /* ── App ── */
 export default function App() {
+  const [planId, setPlanId] = useState("hakone");
+  const [dayIdx, setDayIdx] = useState(0);
   const [active, setActive] = useState(0);
   const [mapOpen, setMapOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const scrollRef = useRef(null);
   const lock = useRef(false);
+
+  const plan = PLANS[planId];
+  const day = plan.days[dayIdx];
+  const spots = day.spots;
+  const multiDay = plan.days.length > 1;
 
   const MAP_H = "45vh";
 
   const onScroll = useCallback(() => {
     if (lock.current) return;
     const el = scrollRef.current; if (!el) return;
-    const cw = el.scrollWidth / SPOTS.length;
+    const cw = el.scrollWidth / spots.length;
     const idx = Math.round(el.scrollLeft / cw);
-    setActive(Math.max(0, Math.min(SPOTS.length - 1, idx)));
-  }, []);
+    setActive(Math.max(0, Math.min(spots.length - 1, idx)));
+  }, [spots.length]);
 
   const goTo = useCallback((i) => {
     setActive(i);
     if (!mapOpen) return;
     const el = scrollRef.current; if (!el) return;
     lock.current = true;
-    const cw = el.scrollWidth / SPOTS.length;
+    const cw = el.scrollWidth / spots.length;
     el.scrollTo({ left: cw * i, behavior: "smooth" });
     setTimeout(() => { lock.current = false; }, 600);
-  }, [mapOpen]);
+  }, [mapOpen, spots.length]);
+
+  const handleSelectPlan = useCallback((id) => {
+    setPlanId(id);
+    setDayIdx(0);
+    setActive(0);
+    setMenuOpen(false);
+  }, []);
+
+  const handleSelectDay = useCallback((i) => {
+    setDayIdx(i);
+    setActive(0);
+  }, []);
 
   return (
     <div style={{
@@ -541,7 +863,7 @@ export default function App() {
         position: "relative",
       }}>
         <div style={{ height: MAP_H, position: "relative" }}>
-          <Map spots={SPOTS} active={active} onTap={goTo} visible={mapOpen} />
+          <Map spots={spots} active={active} onTap={goTo} visible={mapOpen} />
         </div>
         <div style={{
           position: "absolute", bottom: 0, left: 0, right: 0, height: 20,
@@ -552,14 +874,28 @@ export default function App() {
 
       {/* ── Header ── */}
       <div style={{
-        padding: mapOpen ? "10px 20px 6px" : "16px 20px 12px",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: mapOpen ? "10px 16px 6px" : "14px 16px 10px",
+        display: "flex", alignItems: "center", gap: 10,
         flexShrink: 0, transition: "padding 0.3s",
       }}>
-        <div>
-          <div style={{ fontSize: mapOpen ? 16 : 20, fontWeight: 700, fontFamily: "'Noto Serif JP',serif", color: "#1a1a1a", transition: "font-size 0.3s" }}>箱根一日旅</div>
-          <div style={{ fontSize: 9, color: "#999", letterSpacing: 3, marginTop: 2 }}>HAKONE DAY TRIP</div>
+        <button onClick={() => setMenuOpen(true)} style={{
+          background: "rgba(255,255,255,0.7)",
+          border: "1px solid rgba(0,0,0,0.08)",
+          borderRadius: 12, width: 38, height: 38,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          cursor: "pointer", flexShrink: 0,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        }}>
+          <Menu size={18} color="#555" />
+        </button>
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: mapOpen ? 16 : 20, fontWeight: 700, fontFamily: "'Noto Serif JP',serif", color: "#1a1a1a", transition: "font-size 0.3s", lineHeight: 1.1 }}>
+            {plan.title}
+          </div>
+          <div style={{ fontSize: 9, color: "#999", letterSpacing: 3, marginTop: 2 }}>{plan.subtitle}</div>
         </div>
+
         {!mapOpen && (
           <button onClick={() => setMapOpen(true)} style={{
             background: "rgba(255,255,255,0.7)",
@@ -569,6 +905,7 @@ export default function App() {
             color: "#555", cursor: "pointer",
             display: "flex", alignItems: "center", gap: 5,
             boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+            flexShrink: 0,
           }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
@@ -579,12 +916,18 @@ export default function App() {
         )}
       </div>
 
+      {/* ── Day Tabs (multi-day only) ── */}
+      {multiDay && (
+        <DayTabs days={plan.days} activeDay={dayIdx} onChange={handleSelectDay} accent={plan.accent} />
+      )}
+
       {mapOpen ? (
         <>
           {/* ── Card Carousel (map mode) ── */}
           <div
             ref={scrollRef}
             onScroll={onScroll}
+            key={`${planId}-${dayIdx}`}
             style={{
               flex: 1, display: "flex",
               overflowX: "auto", scrollSnapType: "x mandatory",
@@ -594,14 +937,14 @@ export default function App() {
               minHeight: 0,
             }}
           >
-            {SPOTS.map((sp, i) => (
+            {spots.map((sp, i) => (
               <div key={sp.id} style={{
                 flex: "0 0 84%",
                 scrollSnapAlign: "center",
                 padding: "0 6px",
                 boxSizing: "border-box",
                 ...(i === 0 ? { marginLeft: "8%" } : {}),
-                ...(i === SPOTS.length - 1 ? { marginRight: "8%" } : {}),
+                ...(i === spots.length - 1 ? { marginRight: "8%" } : {}),
               }}>
                 <Card s={sp} isCurrent={i === active} onTap={() => setMapOpen(false)} onFocus={() => goTo(i)} />
               </div>
@@ -616,7 +959,7 @@ export default function App() {
             background: "linear-gradient(to bottom, rgba(240,237,232,0), rgba(240,237,232,1) 30%)",
             zIndex: 50,
           }}>
-            {SPOTS.map((sp, i) => (
+            {spots.map((sp, i) => (
               <div key={i} style={{
                 width: i === active ? 24 : 7, height: 7, borderRadius: 4,
                 background: i === active ? sp.color : "rgba(0,0,0,0.1)",
@@ -629,7 +972,7 @@ export default function App() {
       ) : (
         /* ── Full Detail View (map closed) ── */
         <>
-          <SwipeableDetail active={active} setActive={setActive} spots={SPOTS} />
+          <SwipeableDetail key={`${planId}-${dayIdx}`} active={active} setActive={setActive} spots={spots} />
           {/* Bottom dots */}
           <div style={{
             position: "absolute", bottom: 0, left: 0, right: 0,
@@ -638,7 +981,7 @@ export default function App() {
             background: "linear-gradient(to bottom, rgba(240,237,232,0), rgba(240,237,232,1) 30%)",
             zIndex: 50,
           }}>
-            {SPOTS.map((sp, i) => (
+            {spots.map((sp, i) => (
               <div key={i} style={{
                 width: i === active ? 24 : 7, height: 7, borderRadius: 4,
                 background: i === active ? sp.color : "rgba(0,0,0,0.1)",
@@ -649,6 +992,14 @@ export default function App() {
           </div>
         </>
       )}
+
+      {/* ── Plan Menu Drawer ── */}
+      <PlanMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        currentPlanId={planId}
+        onSelectPlan={handleSelectPlan}
+      />
     </div>
   );
 }
