@@ -12,9 +12,14 @@
     "validate:fixtures": "tsx scripts/validate-fixtures.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.96.0",
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.105.4",
     "@tanstack/react-query": "^5.100.10",
+    "hono": "^4.12.19",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.8.0",
+    "motion": "^12.38.0",
     "nanoid": "^5.1.11",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -28,6 +33,7 @@
     "@types/node": "^25.8.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@vercel/node": "^5.8.2",
     "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",

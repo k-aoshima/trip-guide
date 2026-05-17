@@ -26,5 +26,5 @@
 
     "types": ["node", "vite/client"]
   },
-  "include": ["src", "scripts", "fixtures", "vite.config.ts"]
+  "include": ["src", "scripts", "fixtures", "api", "vite.config.ts"]
 }
