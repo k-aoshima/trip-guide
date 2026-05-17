@@ -1,3 +1,60 @@
+/* ---- Design Tokens (Phase 0) ----
+ * 2026 Huxe-inspired palette for home/list screens (Phase 1+).
+ * Viewer (existing 旅のしおり) keeps warm cream — see --viewer-bg.
+ */
+:root {
+  /* Home / list (Huxe) */
+  --bg: #FFFFFF;
+  --bg-card: #F4F4F2;
+  --bg-elev: rgba(255, 255, 255, 0.92);
+  --fg: #0F0F0F;
+  --fg-muted: #707070;
+  --hero-ink: #FFFFFF;
+  --cta-bg: #FFFFFF;
+  --cta-fg: #0F0F0F;
+
+  /* Viewer (current 旅のしおり) */
+  --viewer-bg: #F0EDE8;
+  --viewer-bg-elev: rgba(255, 255, 255, 0.72);
+  --viewer-fg: #1A1A1A;
+  --viewer-fg-muted: #999999;
+
+  /* Hero abstract art palette (Huxe-inspired) */
+  --hero-base: #C9D8F0;
+  --hero-highlight: #F2B98E;
+  --hero-shadow: #C99BB5;
+
+  /* Motion */
+  --spring-stiff: 220;
+  --spring-damp: 26;
+}
+
+[data-theme="dark"] {
+  --bg: #0E0E0E;
+  --bg-card: #1A1A1A;
+  --bg-elev: rgba(31, 31, 31, 0.92);
+  --fg: #F5F5F5;
+  --fg-muted: #9A9A9A;
+  --hero-ink: #FFFFFF;
+  --cta-bg: #FFFFFF;
+  --cta-fg: #0F0F0F;
+
+  --viewer-bg: #14110D;
+  --viewer-bg-elev: rgba(34, 30, 24, 0.84);
+  --viewer-fg: #F4EFE6;
+  --viewer-fg-muted: #948A7A;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E0E0E;
+    --bg-card: #1A1A1A;
+    --bg-elev: rgba(31, 31, 31, 0.92);
+    --fg: #F5F5F5;
+    --fg-muted: #9A9A9A;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -17,9 +74,11 @@ body {
   padding-bottom: env(safe-area-inset-bottom, 0px);
   touch-action: pan-x pan-y;
   -webkit-text-size-adjust: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
 }
 
-/* 横画面ブロック */
 @media (orientation: landscape) and (max-height: 500px) {
   #root {
     display: none !important;
@@ -31,10 +90,21 @@ body {
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: "Noto Sans JP", sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: #666;
-    background: #f0ede8;
+    background: var(--viewer-bg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
