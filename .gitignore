@@ -34,3 +34,7 @@ supabase/.branches/
 *.njsproj
 *.sln
 *.sw?
+
+# 公式サイトなどから取った個人利用の写真。リポジトリが公開なので push しない
+public/images/private/
+.vercel

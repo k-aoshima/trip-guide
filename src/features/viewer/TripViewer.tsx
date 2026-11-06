@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { ArrowLeft, Map as MapIcon } from "lucide-react";
-import { useNavigate } from "react-router";
+import { Map as MapIcon } from "lucide-react";
 import { Map } from "./Map";
 import { Card } from "./Card";
 import { SwipeableDetail } from "./SwipeableDetail";
@@ -12,7 +11,6 @@ type Props = {
 };
 
 export function TripViewer({ plan }: Props) {
-  const navigate = useNavigate();
   const [dayIdx, setDayIdx] = useState(0);
   const [active, setActive] = useState(0);
   const [mapOpen, setMapOpen] = useState(true);
@@ -50,11 +48,6 @@ export function TripViewer({ plan }: Props) {
     setActive(0);
   }, []);
 
-  const goBack = () => {
-    if (window.history.length > 1) navigate(-1);
-    else navigate("/");
-  };
-
   return (
     <div style={{
       height: "100dvh", maxWidth: 480, margin: "0 auto",
@@ -84,28 +77,13 @@ export function TripViewer({ plan }: Props) {
         }} />
       </div>
 
-      {/* ── Unified Header (back / title / map toggle) ── */}
+      {/* ── Unified Header (title / map toggle) ── */}
+      {/* 戻るボタンは外した。いきなりこの旅程を開く使い方なので戻り先が無い */}
       <div style={{
         padding: mapOpen ? "10px 14px 6px" : "calc(env(safe-area-inset-top, 0px) + 12px) 14px 10px",
         display: "flex", alignItems: "center", gap: 10,
         flexShrink: 0, transition: "padding 0.3s",
       }}>
-        <button
-          onClick={goBack}
-          aria-label="戻る"
-          style={{
-            background: "rgba(255,255,255,0.85)",
-            border: "1px solid rgba(0,0,0,0.06)",
-            borderRadius: 12, width: 38, height: 38,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            cursor: "pointer", flexShrink: 0,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-            color: "var(--viewer-fg)",
-          }}
-        >
-          <ArrowLeft size={18} />
-        </button>
-
         <div style={{ flex: 1, minWidth: 0, textAlign: mapOpen ? "left" : "center" }}>
           <div style={{
             fontSize: mapOpen ? 15 : 18, fontWeight: 700,

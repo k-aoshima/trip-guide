@@ -1,0 +1,9 @@
+# .vercelignore があると Vercel は .gitignore を見ない。
+# public/images/private/ (個人利用の写真) はデプロイには含めたいので、ここには書かない
+node_modules
+dist
+.env
+.env.*
+!.env.example
+.git
+.claude

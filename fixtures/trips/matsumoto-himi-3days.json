@@ -1,0 +1,411 @@
+{
+  "id": "matsumoto-himi-3days",
+  "title": "松本・上高地・氷見 2泊3日",
+  "subtitle": "MATSUMOTO / KAMIKOCHI / HIMI 3-DAY TRIP",
+  "accent": "#2E86AB",
+  "icon": "mountain",
+  "days": [
+    {
+      "label": "Day 1",
+      "spots": [
+        {
+          "id": 0,
+          "time": "11:00",
+          "end": "12:30",
+          "icon": "landmark",
+          "label": "松本市美術館",
+          "sub": "Matsumoto City Museum of Art",
+          "note": "無料駐車場67台。祝日は周辺道路が混みやすい。10/12は祝日の月曜なので開館している",
+          "hours": "9:00–17:00（入場は16:30まで）",
+          "desc": "松本出身の草間彌生の作品を常設で展示する美術館。建物の前に立つ水玉の巨大な花のオブジェが目印で、館内の自販機まで水玉に彩られている。",
+          "lat": 36.2316,
+          "lng": 137.9766,
+          "color": "#E74C3C",
+          "tags": [
+            "アート",
+            "草間彌生",
+            "駐車場無料"
+          ],
+          "drive": null,
+          "images": [
+            "/images/mh_museum_1.jpg",
+            "/images/mh_museum_2.jpg"
+          ],
+          "url": "https://matsumoto-artmuse.jp/visit/information/",
+          "address": "長野県松本市中央4-2-22",
+          "query": "松本市美術館"
+        },
+        {
+          "id": 1,
+          "time": "13:00",
+          "end": "14:30",
+          "icon": "landmark",
+          "label": "国宝 松本城",
+          "sub": "Matsumoto Castle",
+          "note": "10/12はスポーツの日で混みやすい。車は城周辺の駐車場へ。天守の階段はかなり急なので歩きやすい靴で",
+          "hours": "8:30–17:00（最終入場16:30）",
+          "desc": "現存する五重六階の天守としては日本最古の国宝。黒漆の外壁から「烏城」とも呼ばれ、北アルプスを背にした姿はお堀越しに眺めるのがおすすめ。",
+          "lat": 36.2386,
+          "lng": 137.9689,
+          "color": "#2C3E50",
+          "tags": [
+            "国宝",
+            "城",
+            "歴史"
+          ],
+          "drive": "車 約5分（松本市美術館より）",
+          "images": [
+            "/images/mh_castle_1.jpg",
+            "/images/mh_castle_2.jpg"
+          ],
+          "url": "https://www.city.matsumoto.nagano.jp/soshiki/135/4118.html",
+          "address": "長野県松本市丸の内4-1",
+          "query": "国宝 松本城"
+        },
+        {
+          "id": 2,
+          "time": "14:45",
+          "end": "16:00",
+          "icon": "market",
+          "label": "縄手通り",
+          "sub": "Nawate-dori Street",
+          "note": "松本城から歩いて行ける。車は城の周辺に置いたままでOK。店ごとに営業時間が違う",
+          "desc": "女鳥羽川沿いに続く歩行者天国の商店街。カエルのモチーフが目印で、たい焼きや雑貨の店が並ぶ。四柱神社の参道として栄えた、レトロな食べ歩き通り。",
+          "lat": 36.2346,
+          "lng": 137.972,
+          "color": "#27AE60",
+          "tags": [
+            "散策",
+            "食べ歩き",
+            "レトロ"
+          ],
+          "drive": "徒歩 約10分（松本城より）",
+          "images": [
+            "/images/mh_nawate_1.jpg"
+          ],
+          "url": "https://visitmatsumoto.com/spot/detail_1083.html",
+          "address": "長野県松本市大手4",
+          "query": "縄手通り 松本"
+        },
+        {
+          "id": 3,
+          "time": "16:30",
+          "end": "—",
+          "icon": "hotel",
+          "label": "美ヶ原温泉 ホテルニューことぶき",
+          "sub": "Hotel New Kotobuki",
+          "note": "宿泊者の普通車駐車場は無料。翌朝は上高地へ早めに出発するので、夜はゆっくり温泉で",
+          "hours": "チェックイン 15:00–",
+          "desc": "松本市街から近い美ヶ原温泉の宿。畳敷きの大浴場と露天風呂、貸切風呂があり、信州の味覚を集めた料理が好評。",
+          "lat": 36.24594,
+          "lng": 138.001326,
+          "color": "#8E44AD",
+          "tags": [
+            "温泉",
+            "宿泊",
+            "駐車場無料"
+          ],
+          "drive": "車 約15分（縄手通りより）",
+          "images": [
+            "/images/private/kotobuki_a.jpg",
+            "/images/private/kotobuki_c.jpg"
+          ],
+          "url": "https://www.newkotobuki.co.jp/",
+          "address": "長野県松本市里山辺484-1",
+          "query": "美ヶ原温泉 ホテルニューことぶき"
+        }
+      ]
+    },
+    {
+      "label": "Day 2",
+      "spots": [
+        {
+          "id": 0,
+          "time": "07:00",
+          "end": "07:00",
+          "icon": "hotel",
+          "label": "ホテルニューことぶき 出発",
+          "sub": "Depart Hotel New Kotobuki",
+          "note": "朝7時にチェックアウト。上高地は朝のほうが空いていて、景色もきれい",
+          "desc": "美ヶ原温泉を出発して、上高地の玄関口・沢渡へ向かう。途中の国道158号は山あいのカーブが続くので、時間に余裕をもって。",
+          "lat": 36.24594,
+          "lng": 138.001326,
+          "color": "#8E44AD",
+          "tags": [
+            "出発",
+            "早朝"
+          ],
+          "drive": null,
+          "images": [
+            "/images/private/kotobuki_a.jpg",
+            "/images/private/kotobuki_c.jpg"
+          ],
+          "address": "長野県松本市里山辺484-1",
+          "query": "美ヶ原温泉 ホテルニューことぶき"
+        },
+        {
+          "id": 1,
+          "time": "08:00",
+          "end": "08:30",
+          "icon": "mountain",
+          "label": "沢渡 市営第3（かすみ沢）駐車場",
+          "sub": "Sawando Kasumizawa Parking",
+          "note": "駐車料1日800円（カード・QR・電子マネー・千円札）。隣のさわんどバスターミナルで往復券（3,000円/人）を買い、8:30発のシャトルバスへ",
+          "desc": "上高地行きシャトルバスの始発「さわんどバスターミナル」に直結した市営駐車場（普通車410台）。上高地はマイカー規制なので、ここで車を置いてバスに乗り換える。",
+          "lat": 36.1643,
+          "lng": 137.6569,
+          "color": "#7F8C8D",
+          "tags": [
+            "駐車場",
+            "シャトルバス",
+            "乗り換え"
+          ],
+          "drive": "車 約50分（ホテルニューことぶきより、国道158号の山道）",
+          "images": [
+            "/images/mh_sawando_1.jpg"
+          ],
+          "url": "https://www.kamikochi.or.jp/access/sawando/",
+          "address": "長野県松本市安曇",
+          "query": "さわんどバスターミナル"
+        },
+        {
+          "id": 2,
+          "time": "08:51",
+          "end": "09:15",
+          "icon": "water",
+          "label": "大正池",
+          "sub": "Taisho Pond, Kamikochi",
+          "note": "「大正池」バス停で降りる。朝は水面に穂高連峰が映りやすい。ここから河童橋までは歩いて向かう",
+          "desc": "焼岳の噴火でせき止められてできた池。水面に穂高連峰が映り、立ち枯れの木が幻想的な景色をつくる。朝の静かな時間が特にきれい。",
+          "lat": 36.2287,
+          "lng": 137.6187,
+          "color": "#2980B9",
+          "tags": [
+            "絶景",
+            "自然",
+            "朝がおすすめ"
+          ],
+          "drive": "シャトルバス 8:30発 → 大正池 8:51着（さわんどバスターミナルより）",
+          "images": [
+            "/images/mh_taisho_1.jpg",
+            "/images/mh_taisho_2.jpg"
+          ],
+          "url": "https://www.kamikochi.or.jp/access/car/",
+          "address": "長野県松本市安曇上高地",
+          "query": "大正池 上高地"
+        },
+        {
+          "id": 3,
+          "time": "10:15",
+          "end": "11:35",
+          "icon": "mountain",
+          "label": "河童橋",
+          "sub": "Kappa-bashi Bridge",
+          "note": "河童橋のあたりで昼食。上高地バスターミナルは河童橋から歩いてすぐ。帰りのバスに遅れないように",
+          "desc": "上高地のシンボルの吊り橋。梓川の澄んだ流れの向こうに穂高連峰、振り返れば焼岳が見える。10月は紅葉が始まる時期。",
+          "lat": 36.2488,
+          "lng": 137.6378,
+          "color": "#16A085",
+          "tags": [
+            "上高地",
+            "絶景",
+            "散策"
+          ],
+          "drive": "徒歩 約1時間（大正池より、田代池を通る自然研究路）",
+          "images": [
+            "/images/mh_kappa_1.jpg",
+            "/images/mh_kappa_2.jpg"
+          ],
+          "url": "https://www.kamikochi.or.jp/",
+          "address": "長野県松本市安曇上高地",
+          "query": "河童橋 上高地"
+        },
+        {
+          "id": 4,
+          "time": "11:45",
+          "end": "11:45",
+          "icon": "mountain",
+          "label": "上高地バスターミナル（帰りのバス）",
+          "sub": "Kamikochi Bus Terminal",
+          "note": "11:45発 → さわんどバスターミナル 12:11着。乗り遅れたら次は12:15発（12:41着）、12:45発（13:11着）。満席だと乗れないことがある",
+          "desc": "上高地の玄関口。沢渡へ戻るシャトルバスはここから30分おきに出る。帰りは大正池を通って沢渡まで約30分。",
+          "lat": 36.2462,
+          "lng": 137.6353,
+          "color": "#7F8C8D",
+          "tags": [
+            "シャトルバス",
+            "帰り",
+            "30分おき"
+          ],
+          "drive": "徒歩 約5分（河童橋より）",
+          "images": [
+            "/images/mh_kamikochibt_1.jpg"
+          ],
+          "url": "https://www.alpico.co.jp/traffic/local/kamikochi/sawando/",
+          "address": "長野県松本市安曇上高地",
+          "query": "上高地バスターミナル"
+        },
+        {
+          "id": 5,
+          "time": "12:11",
+          "end": "12:20",
+          "icon": "mountain",
+          "label": "沢渡 市営第3（かすみ沢）駐車場 に戻る",
+          "sub": "Back to Sawando Parking",
+          "note": "さわんどバスターミナルで降りて、朝止めた車へ。駐車料金を払ってここから氷見へ",
+          "desc": "上高地からシャトルバスで戻ってきて、車に乗り換える。ここからは高山を通って富山・氷見へのロングドライブ。",
+          "lat": 36.1643,
+          "lng": 137.6569,
+          "color": "#7F8C8D",
+          "tags": [
+            "駐車場",
+            "車に戻る"
+          ],
+          "drive": "シャトルバス 11:45発 → 12:11着（上高地バスターミナルより）",
+          "images": [
+            "/images/mh_sawando_1.jpg"
+          ],
+          "url": "https://www.kamikochi.or.jp/access/sawando/",
+          "address": "長野県松本市安曇",
+          "query": "さわんどバスターミナル"
+        },
+        {
+          "id": 6,
+          "time": "15:00",
+          "end": "16:00",
+          "icon": "landmark",
+          "label": "まんがロード（潮風ギャラリー）",
+          "sub": "Himi Manga Road",
+          "note": "比美町商店街が「まんがロード」。潮風ギャラリーは17:00まで。駐車場は4台だけなので、埋まっていたら近くの駐車場へ",
+          "hours": "潮風ギャラリー 9:00–17:00",
+          "desc": "氷見出身の藤子不二雄Ⓐ先生のキャラクター像が並ぶ商店街。忍者ハットリくんのからくり時計や、原画を展示する潮風ギャラリーがある。",
+          "lat": 36.8592,
+          "lng": 136.9873,
+          "color": "#E67E22",
+          "tags": [
+            "まんが",
+            "ハットリくん",
+            "散策"
+          ],
+          "drive": "車 約2時間半（沢渡より、高山経由の山道）",
+          "images": [
+            "/images/mh_manga_1.jpg"
+          ],
+          "url": "https://fujikoworld.com/road/",
+          "address": "富山県氷見市伊勢大町1-12-18",
+          "query": "氷見市潮風ギャラリー"
+        },
+        {
+          "id": 7,
+          "time": "16:30",
+          "end": "—",
+          "icon": "hotel",
+          "label": "氷見温泉郷 くつろぎの宿 うみあかり",
+          "sub": "Umiakari, Himi Onsen",
+          "note": "駐車場は無料で約100台。最終チェックインは19:00",
+          "hours": "チェックイン 15:00–19:00",
+          "desc": "富山湾を一望する露天風呂が自慢の宿。源泉100％かけ流しの天然温泉で、晴れた日は海越しに立山連峰が見えることも。",
+          "lat": 36.90598,
+          "lng": 137.014064,
+          "color": "#8E44AD",
+          "tags": [
+            "温泉",
+            "オーシャンビュー",
+            "駐車場無料"
+          ],
+          "drive": "車 約10分（まんがロードより）",
+          "images": [
+            "/images/private/umiakari_a.jpg",
+            "/images/private/umiakari_b.jpg"
+          ],
+          "url": "https://www.umiakari.jp/",
+          "address": "富山県氷見市宇波10-1",
+          "query": "くつろぎの宿 うみあかり"
+        }
+      ]
+    },
+    {
+      "label": "Day 3",
+      "spots": [
+        {
+          "id": 0,
+          "time": "08:00",
+          "end": "08:00",
+          "icon": "hotel",
+          "label": "うみあかり 出発",
+          "sub": "Depart Umiakari",
+          "note": "朝8時ごろ出発。チェックアウトの時間は宿で確認",
+          "desc": "富山湾沿いの宿を出発して、新湊の市場へ。海沿いを走る道なので、晴れていれば立山連峰も見える。",
+          "lat": 36.90598,
+          "lng": 137.014064,
+          "color": "#8E44AD",
+          "tags": [
+            "出発",
+            "海沿いドライブ"
+          ],
+          "drive": null,
+          "images": [
+            "/images/private/umiakari_a.jpg",
+            "/images/private/umiakari_b.jpg"
+          ],
+          "address": "富山県氷見市宇波10-1",
+          "query": "くつろぎの宿 うみあかり"
+        },
+        {
+          "id": 1,
+          "time": "09:00",
+          "end": "10:15",
+          "icon": "food",
+          "label": "新湊きっときと市場",
+          "sub": "Shinminato Kittokito Market",
+          "note": "無料駐車場470台。市場は9:00から。飲食店は開く時間が店ごとに違うので、朝ごはんにするなら当日確認を",
+          "hours": "9:00–17:00（時期により変動）",
+          "desc": "新湊漁港に水揚げされた魚介がそろう市場。富山湾の宝石と呼ばれる白エビや紅ズワイガニを、寿司や海鮮丼で味わえる。",
+          "lat": 36.7811,
+          "lng": 137.1,
+          "color": "#C0392B",
+          "tags": [
+            "寿司",
+            "白エビ",
+            "紅ズワイガニ"
+          ],
+          "drive": "車 約30分（うみあかりより）",
+          "images": [
+            "/images/private/kittokito_a.jpg",
+            "/images/private/kittokito_b.jpg"
+          ],
+          "url": "http://kittokito-ichiba.co.jp/",
+          "address": "富山県射水市海王町1",
+          "query": "新湊きっときと市場"
+        },
+        {
+          "id": 2,
+          "time": "10:45",
+          "end": "11:45",
+          "icon": "food",
+          "label": "ますのすしミュージアム",
+          "sub": "Masunosushi Museum (Minamoto)",
+          "note": "普通車の駐車場100台。9:30から開いている。職人の手作業を見学でき、手作り体験は予約制。見学後そのまま帰路へ",
+          "hours": "9:30–17:00",
+          "desc": "創業300年の歴史をもつ富山名物「ますのすし」の老舗・源の本店。職人の技の見学、食事、お土産選びまで楽しめる。",
+          "lat": 36.6278,
+          "lng": 137.2042,
+          "color": "#D35400",
+          "tags": [
+            "ますのすし",
+            "工場見学",
+            "お土産"
+          ],
+          "drive": "車 約30分（新湊きっときと市場より）",
+          "images": [
+            "/images/mh_masu_1.jpg",
+            "/images/mh_masu_2.jpg"
+          ],
+          "url": "https://www.minamoto.co.jp/museum",
+          "address": "富山県富山市南央町37-6",
+          "query": "源 ますのすしミュージアム"
+        }
+      ]
+    }
+  ]
+}

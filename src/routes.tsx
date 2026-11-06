@@ -5,7 +5,10 @@ import { NewTripPage } from "@/features/create/NewTripPage";
 import { TripViewerPage } from "@/features/viewer/TripViewerPage";
 
 export const router = createBrowserRouter([
-  { path: "/", element: <HomePage /> },
+  // 今は 10/12〜14 の旅程だけを使うので、開いたらいきなりその画面にする。
+  // 一覧(ホーム)は /home に残してある
+  { path: "/", element: <Navigate to="/trip/matsumoto-himi-3days" replace /> },
+  { path: "/home", element: <HomePage /> },
   { path: "/signin", element: <SignInPage /> },
   { path: "/new", element: <NewTripPage /> },
   { path: "/trip/:id", element: <TripViewerPage /> },
